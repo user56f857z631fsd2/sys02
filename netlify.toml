@@ -1,4 +1,11 @@
 [build]
   command = "yarn build"
   publish = "build"
-  functions = "netlify/functions"
+
+[functions]
+  directory = "src/lambda"  # Spécifiez le bon répertoire pour vos fonctions
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
