@@ -1,16 +1,17 @@
 {
-  "name": "my-vrchat-app",
+  "name": "vrchat-api",
   "version": "1.0.0",
-  "description": "Application VRChat avec intégration Netlify",
+  "description": "API for VRChat integration",
+  "main": "index.js",
   "scripts": {
-    "build": "your-build-command-here",
-    "start": "node server.js"  // Exemple de script de démarrage pour une application Node.js (ajustez selon votre cas)
+    "start": "node index.js"  // Commande pour démarrer votre serveur API
   },
   "dependencies": {
-    "express": "^4.17.1",     // Exemple de dépendance pour une application Node.js
-    "axios": "^0.21.1"        // Exemple de dépendance pour effectuer des requêtes HTTP
+    "express": "^4.17.1",   // Dépendance pour un serveur HTTP
+    "axios": "^0.24.0"      // Dépendance pour effectuer des requêtes HTTP
+    // Ajoutez d'autres dépendances nécessaires ici
   },
-  "devDependencies": {
-    "typescript": "^4.3.5"    // Exemple de dépendance de développement, si nécessaire
+  "engines": {
+    "node": "14.x"          // Version de Node.js recommandée pour votre application
   }
 }
