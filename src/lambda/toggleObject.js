@@ -1,28 +1,19 @@
 // src/lambda/toggleObject.js
-const { parse } = require('url');
-const { send } = require('micro');
+const { API_KEY } = process.env;
 
-exports.handler = async function(event, context) {
-  const { pathname, query } = parse(event.rawUrl, true);
-
-  if (pathname === '/api/toggleObject') {
-    const apiKey = query.apiKey;
-
-    if (apiKey && apiKey === process.env.API_KEY) {
-      return {
-        statusCode: 200,
-        body: JSON.stringify({ success: true, message: "Object toggled successfully." }),
-      };
-    } else {
-      return {
-        statusCode: 401,
-        body: JSON.stringify({ success: false, message: "Unauthorized." }),
-      };
-    }
+exports.handler = async (event, context) => {
+  const apiKey = event.queryStringParameters.apiKey;
+  
+  if (apiKey !== API_KEY) {
+    return {
+      statusCode: 401,
+      body: JSON.stringify({ message: "Unauthorized" }),
+    };
   }
 
+  // Logique pour toggler l'objet
   return {
-    statusCode: 404,
-        body: JSON.stringify({ success: false, message: "Not found." }),
+    statusCode: 200,
+    body: JSON.stringify({ message: "Object toggled successfully." }),
   };
 };
