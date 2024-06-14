@@ -1,28 +1,25 @@
-// src/lambda/toggleObject.js
-const { parse } = require('url');
-const { send } = require('micro');
+const express = require('express');
+const bodyParser = require('body-parser');
 
-exports.handler = async function(event, context) {
-  const { pathname, query } = parse(event.rawUrl, true);
+const app = express();
+const port = process.env.PORT || 3000;
 
-  if (pathname === '/api/toggleObject') {
-    const apiKey = query.apiKey;
+app.use(bodyParser.json());
 
-    if (apiKey && apiKey === process.env.API_KEY) {
-      return {
-        statusCode: 200,
-        body: JSON.stringify({ success: true, message: "Object toggled successfully." }),
-      };
-    } else {
-      return {
-        statusCode: 401,
-        body: JSON.stringify({ success: false, message: "Unauthorized." }),
-      };
-    }
+app.get('/api/toggleObject', (req, res) => {
+  // Simulation de la vérification de la connexion à VRChat
+  // Dans un scénario réel, vous vérifieriez l'authentification et d'autres détails nécessaires
+  const isConnected = true; // Simulation de la connexion réussie à VRChat
+
+  if (isConnected) {
+    // Réponse JSON si la connexion est réussie
+    res.json({ message: 'Connected to VRChat successfully' });
+  } else {
+    // Réponse JSON si la connexion a échoué
+    res.status(401).json({ message: 'Unauthorized' });
   }
+});
 
-  return {
-    statusCode: 404,
-        body: JSON.stringify({ success: false, message: "Not found." }),
-  };
-};
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
+});
