@@ -1,0 +1,3 @@
+[build]
+  command = "npm run build"  # Commande de build pour votre application, ajustez selon votre configuration
+  publish = "src/"           # Répertoire à publier après la construction
