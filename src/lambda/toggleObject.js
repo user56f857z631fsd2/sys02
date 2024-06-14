@@ -1,18 +1,30 @@
-exports.handler = async function(event, context) {
-    // Vérifiez si l'appel à l'API est valide (par exemple, vérification d'un token ou d'une clé)
-    const apiKey = event.headers['X-API-Key']; // Exemple d'authentification basée sur une clé API
-    
-    if (!apiKey || apiKey !== 'your-api-key') {
-        return {
-            statusCode: 401,
-            body: JSON.stringify({ message: 'Unauthorized' })
-        };
-    }
+const { createServer } = require('http');
+const { parse } = require('url');
+const { send } = require('micro');
 
-    // Si l'authentification réussit, effectuez l'action désirée (activer l'objet)
-    // Dans cet exemple, retournez simplement un succès avec un message JSON
-    return {
-        statusCode: 200,
-        body: JSON.stringify({ message: 'Object toggled successfully' })
-    };
-};
+const PORT = process.env.PORT || 3000;
+
+const server = createServer(async (req, res) => {
+  const { pathname, query } = parse(req.url, true);
+
+  if (pathname === '/api/toggleObject') {
+    // Extraire la clé API des paramètres de requête
+    const apiKey = query.apiKey;
+
+    // Vérifier si la clé API correspond à la variable d'environnement
+    if (apiKey && apiKey === process.env.API_KEY) {
+      return send(res, 200, { success: true, message: "Object toggled successfully." });
+    } else {
+      return send(res, 401, { success: false, message: "Unauthorized." });
+    }
+  }
+
+  return send(res, 404, { success: false, message: "Not found." });
+});
+
+server.listen(PORT, (err) => {
+  if (err) {
+    throw err;
+  }
+  console.log(`> Ready on http://localhost:${PORT}`);
+});
