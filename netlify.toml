@@ -3,7 +3,7 @@
   publish = "build"
 
 [functions]
-  directory = "src/lambda"  # Spécifiez le bon répertoire pour vos fonctions
+  directory = "netlify/functions"
 
 [[redirects]]
   from = "/api/*"
